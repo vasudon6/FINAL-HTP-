@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { collection, onSnapshot, doc, setDoc, addDoc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import toast from 'react-hot-toast';
 
 export type Booking = {
@@ -237,156 +239,146 @@ const DEFAULT_DATA: AppData = {
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export function AdminProvider({ children }: { children: React.ReactNode }) {
-  const [bookings, setBookings] = useState<Booking[]>(() => {
-    const saved = localStorage.getItem('vasu_bookings');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [queries, setQueries] = useState<Query[]>([]);
+  const [publicData, setPublicData] = useState<AppData>(DEFAULT_DATA);
+  const [draftData, setDraftData] = useState<AppData>(DEFAULT_DATA);
 
-  
+  useEffect(() => {
+    const unsubBookings = onSnapshot(collection(db, 'bookings'), (snapshot) => {
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Booking[];
+      setBookings(data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+    });
 
-  const [queries, setQueries] = useState<Query[]>(() => {
-    const saved = localStorage.getItem('vasu_queries');
-    return saved ? JSON.parse(saved) : [];
-  });
+    const unsubQueries = onSnapshot(collection(db, 'queries'), (snapshot) => {
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Query[];
+      setQueries(data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+    });
 
-  const [publicData, setPublicData] = useState<AppData>(() => {
-    const saved = localStorage.getItem('vasu_public_data');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      
-      // Ensure backward compatibility with newer fields
-      const mergedGeneralImages = [...(parsed.generalImages || [])];
-      
-      // Add missing default images
-      DEFAULT_GENERAL_IMAGES.forEach(defaultImg => {
-        const existing = mergedGeneralImages.find(img => img.id === defaultImg.id);
-        if (!existing) {
-          mergedGeneralImages.push(defaultImg);
-        } else if ((existing.id === 'hero-bg' || existing.id === 'clinic-2') && existing.url.includes('unsplash.com')) {
-          existing.url = defaultImg.url;
+    const unsubSettings = onSnapshot(doc(db, 'settings', 'publicData'), (snapshot) => {
+      if (snapshot.exists()) {
+        const parsed = snapshot.data().data;
+        if (parsed) {
+          try {
+            const data = JSON.parse(parsed);
+            
+            // Apply all backward compatibility merges here as before
+            let mergedGeneralImages = [...(data.generalImages || [])];
+            DEFAULT_GENERAL_IMAGES.forEach(defaultImg => {
+              const existing = mergedGeneralImages.find(img => img.id === defaultImg.id);
+              if (!existing) mergedGeneralImages.push(defaultImg);
+              else if ((existing.id === 'hero-bg' || existing.id === 'clinic-2') && existing.url.includes('unsplash.com')) existing.url = defaultImg.url;
+            });
+            
+            let mergedTransformations = data.transformations || [];
+            if (mergedTransformations.length === 0 || mergedTransformations.some((t:any) => t.before.includes('unsplash.com') || t.after.includes('unsplash.com'))) {
+              mergedTransformations = DEFAULT_TRANSFORMATIONS;
+            }
+            
+            let mergedDoctors = data.doctors || DEFAULT_DATA.doctors;
+            
+            let mergedServices = data.services || [];
+            if (mergedServices.length === 0) mergedServices = DEFAULT_SERVICES;
+            
+            let mergedReviews = data.reviews || [];
+            if (mergedReviews.length === 0) mergedReviews = DEFAULT_REVIEWS;
+            
+            let mergedClinicContext = data.clinicContext;
+            if (!mergedClinicContext || !mergedClinicContext.includes("Vasu Hair Transplant Clinic के एक बेहद स्मार्ट")) {
+              mergedClinicContext = DEFAULT_DATA.clinicContext;
+            }
+            
+            const finalData = {
+              ...DEFAULT_DATA,
+              ...data,
+              generalImages: mergedGeneralImages,
+              transformations: mergedTransformations,
+              doctors: mergedDoctors,
+              services: mergedServices,
+              reviews: mergedReviews,
+              clinicContext: mergedClinicContext
+            };
+            setPublicData(finalData);
+            setDraftData(finalData);
+            return;
+          } catch(e) {}
         }
-      });
-      
-      let mergedTransformations = parsed.transformations || [];
-      const hasUnsplash = mergedTransformations.some(t => t.before.includes('unsplash.com') || t.after.includes('unsplash.com'));
-      if (hasUnsplash || mergedTransformations.length === 0) {
-        mergedTransformations = DEFAULT_TRANSFORMATIONS;
       }
       
-      let mergedDoctors = parsed.doctors || DEFAULT_DATA.doctors;
-      mergedDoctors = mergedDoctors.map((doc: any) => {
-        if (doc.id === '1' && doc.name === 'Dr. Siddharth Sharma') {
-          doc.name = 'Dr. Vasu Koshle';
-          doc.description = doc.description.replace(/Dr\. Sharma/g, 'Dr. Koshle');
-        }
-        if (['1', '2', '5'].includes(doc.id) && doc.image.includes('unsplash.com')) {
-          const def = DEFAULT_DOCTORS.find(d => d.id === doc.id);
-          if (def) doc.image = def.image;
-        }
-        return doc;
-      });
+      // If it fails or doesn't exist, use default and optionally initialize it in Firebase
+      setPublicData(DEFAULT_DATA);
+      setDraftData(DEFAULT_DATA);
+    });
 
-      let mergedServices = parsed.services || [];
-      if (mergedServices.length === 0) {
-        mergedServices = DEFAULT_SERVICES;
-      } else {
-        mergedServices = mergedServices.map(s => {
-          if (['1', '2', '3', '4'].includes(s.id) && s.image.includes('unsplash.com')) {
-            const def = DEFAULT_SERVICES.find(ds => ds.id === s.id);
-            if (def) s.image = def.image;
-          }
-          return s;
-        });
-        
-        // Add new services if they don't exist
-        ['7', '8'].forEach(id => {
-          if (!mergedServices.find(s => s.id === id)) {
-            const def = DEFAULT_SERVICES.find(ds => ds.id === id);
-            if (def) mergedServices.push(def);
-          }
-        });
-      }
+    return () => {
+      unsubBookings();
+      unsubQueries();
+      unsubSettings();
+    };
+  }, []);
 
-      let mergedReviews = parsed.reviews || [];
-      if (mergedReviews.length === 0) {
-        mergedReviews = DEFAULT_REVIEWS;
-      } else {
-        mergedReviews = mergedReviews.map(r => {
-          if (!r.videoUrl) {
-            const def = DEFAULT_REVIEWS.find(dr => dr.id === r.id);
-            if (def) r.videoUrl = def.videoUrl;
-          }
-          return r;
-        });
-      }
-
-      let mergedClinicContext = parsed.clinicContext;
-      if (!mergedClinicContext || !mergedClinicContext.includes("Vasu Hair Transplant Clinic के एक बेहद स्मार्ट")) {
-        mergedClinicContext = DEFAULT_DATA.clinicContext;
-      }
-      return {
-        ...DEFAULT_DATA,
-        ...parsed,
-        generalImages: mergedGeneralImages,
-        doctors: mergedDoctors,
-        transformations: mergedTransformations,
-        services: mergedServices,
-        reviews: mergedReviews,
-        clinicContext: mergedClinicContext
+  const addBooking = async (b: Omit<Booking, 'id' | 'createdAt' | 'status'>) => {
+    try {
+      const newBooking = {
+        ...b,
+        createdAt: new Date().toISOString(),
+        status: 'pending'
       };
+      await addDoc(collection(db, 'bookings'), newBooking);
+    } catch(e) {
+      console.error(e);
+      toast.error('Failed to add booking');
     }
-    return DEFAULT_DATA;
-  });
-
-  const [draftData, setDraftData] = useState<AppData>(publicData);
-
-  useEffect(() => {
-    localStorage.setItem('vasu_bookings', JSON.stringify(bookings));
-  }, [bookings]);
-
-
-  useEffect(() => {
-    localStorage.setItem('vasu_queries', JSON.stringify(queries));
-  }, [queries]);
-
-  useEffect(() => {
-    localStorage.setItem('vasu_public_data', JSON.stringify(publicData));
-  }, [publicData]);
-
-  const addBooking = (b: Omit<Booking, 'id' | 'createdAt' | 'status'>) => {
-    const newBooking: Booking = {
-      ...b,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-      status: 'pending'
-    };
-    setBookings(prev => [newBooking, ...prev]);
   };
 
-  const updateBookingStatus = (id: string, status: Booking['status']) => {
-    setBookings(prev => prev.map(b => b.id === id ? { ...b, status } : b));
+  const updateBookingStatus = async (id: string, status: Booking['status']) => {
+    try {
+      await updateDoc(doc(db, 'bookings', id), { status });
+    } catch(e) {
+      console.error(e);
+      toast.error('Failed to update booking status');
+    }
   };
 
-  const deleteBooking = (id: string) => {
-    setBookings(prev => prev.filter(b => b.id !== id));
+  const deleteBooking = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, 'bookings', id));
+    } catch(e) {
+      console.error(e);
+      toast.error('Failed to delete booking');
+    }
   };
 
-  const addQuery = (q: Omit<Query, 'id' | 'createdAt'>) => {
-    const newQuery: Query = {
-      ...q,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString()
-    };
-    setQueries(prev => [newQuery, ...prev]);
+  const addQuery = async (q: Omit<Query, 'id' | 'createdAt'>) => {
+    try {
+      const newQuery = {
+        ...q,
+        createdAt: new Date().toISOString()
+      };
+      await addDoc(collection(db, 'queries'), newQuery);
+    } catch(e) {
+      console.error(e);
+      toast.error('Failed to add query');
+    }
   };
 
-  const deleteQuery = (id: string) => {
-    setQueries(prev => prev.filter(q => q.id !== id));
+  const deleteQuery = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, 'queries', id));
+    } catch(e) {
+      console.error(e);
+      toast.error('Failed to delete query');
+    }
   };
 
-  const publishChanges = () => {
-    setPublicData(draftData);
-    toast.success('Changes published successfully to the public site!');
+  const publishChanges = async () => {
+    try {
+      await setDoc(doc(db, 'settings', 'publicData'), { data: JSON.stringify(draftData) });
+      toast.success('Changes published successfully to the public site!');
+    } catch(e) {
+      console.error(e);
+      toast.error('Failed to publish changes');
+    }
   };
 
   const discardChanges = () => {
