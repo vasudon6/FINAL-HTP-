@@ -81,7 +81,12 @@ async function startServer() {
         description: "Show a booking form in the chat when the user wants to book an appointment.",
         parameters: {
           type: Type.OBJECT,
-          properties: {},
+          properties: {
+        intent: {
+          type: Type.STRING,
+          description: "Set this to 'book_appointment' when calling this tool."
+        }
+      },
         }
       };
 
