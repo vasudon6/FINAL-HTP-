@@ -34,7 +34,7 @@ export default function Booking({ isPopup = false, onComplete }: { isPopup?: boo
     }
 
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError('please enter write email');
+      setEmailError('please enter valid email id');
       hasError = true;
     }
 
@@ -130,8 +130,9 @@ export default function Booking({ isPopup = false, onComplete }: { isPopup?: boo
                       <label className="text-xs font-bold text-slate-500 uppercase">Email Address</label>
                       <div className="relative">
                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" className={`w-full pl-12 pr-4 ${isPopup ? 'py-3' : 'py-4'} rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all`} />
+                        <input type="email" value={email} onChange={(e) => {setEmail(e.target.value); setEmailError('');}} placeholder="your@email.com" className={`w-full pl-12 pr-4 ${isPopup ? 'py-3' : 'py-4'} rounded-xl border ${emailError ? 'border-red-500 focus:border-red-500 outline-none ring-2 ring-red-500/20' : 'border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500'} transition-all`} />
                       </div>
+                      {emailError && <p className="text-red-500 text-xs mt-1">{emailError}</p>}
                     </div>
 
                     <div className="space-y-2">

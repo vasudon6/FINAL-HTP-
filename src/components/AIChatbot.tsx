@@ -151,7 +151,7 @@ ${publicData.clinicContext || 'No additional context provided by admin.'}
                             hasErr = true;
                           }
                           if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                            setEmailError('please enter write email');
+                            setEmailError('please enter valid email id');
                             hasErr = true;
                           }
                           if (hasErr) return;
