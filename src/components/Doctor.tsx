@@ -18,7 +18,7 @@ const DoctorCard: React.FC<{ doctor: DoctorType, onKnowMore: (d: DoctorType) => 
       <div className="relative aspect-[4/5] md:aspect-auto md:h-64 overflow-hidden bg-slate-200 flex items-center justify-center">
         <img src={image} loading="lazy" decoding="async" alt={doctor.name} 
           className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
-          loading="lazy" decoding="async" />
+           />
         <div className="absolute bottom-4 right-4 bg-teal-600 text-white px-3 py-2 rounded-xl shadow-lg border-2 border-white flex flex-col items-center">
           <span className="text-xl font-black leading-none">{doctor.experience}</span>
           <span className="text-[8px] font-bold uppercase tracking-wider">Years</span>

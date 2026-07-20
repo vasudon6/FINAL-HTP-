@@ -95,14 +95,14 @@ interface AdminContextType {
 }
 
 const DEFAULT_TRANSFORMATIONS = [
-  { id: '1', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784187716/HTP_1_BE_apucfz.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784187792/HTP_1_AF_q0h0wq.jpg" },
-  { id: '2', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188095/HTP_3_BE_ltmwbv.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188105/HTP_3_AF_poj1on.jpg" },
-  { id: '3', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188092/HTP_4_BE_gq6mjo.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188093/HTP_4_AF_tvlez6.jpg" },
-  { id: '4', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188086/HTP_5_BE_m1wrha.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188106/HTP_5_AF_m6wjbx.jpg" },
-  { id: '5', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188080/HTP_6_BE_o8g4ov.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188085/HTP_6_AF_yklnp6.jpg" },
-  { id: '6', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188079/HTP_7_BE_uopdid.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188067/HTP_7AF_qjlxlq.jpg" },
-  { id: '7', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188077/HTP_8_BE_yigyfn.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188079/HTP_8_AF_np77pf.jpg" },
-  { id: '8', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188980/HTP_10_BE_bforrh.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784188084/HTP_10_AF_l1l4he.jpg" }
+  { id: '1', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784187716/HTP_1_BE_apucfz.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784187792/HTP_1_AF_q0h0wq.jpg" },
+  { id: '2', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188095/HTP_3_BE_ltmwbv.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188105/HTP_3_AF_poj1on.jpg" },
+  { id: '3', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188092/HTP_4_BE_gq6mjo.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188093/HTP_4_AF_tvlez6.jpg" },
+  { id: '4', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188086/HTP_5_BE_m1wrha.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188106/HTP_5_AF_m6wjbx.jpg" },
+  { id: '5', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188080/HTP_6_BE_o8g4ov.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188085/HTP_6_AF_yklnp6.jpg" },
+  { id: '6', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188079/HTP_7_BE_uopdid.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188067/HTP_7AF_qjlxlq.jpg" },
+  { id: '7', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188077/HTP_8_BE_yigyfn.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188079/HTP_8_AF_np77pf.jpg" },
+  { id: '8', before: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188980/HTP_10_BE_bforrh.jpg", after: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784188084/HTP_10_AF_l1l4he.jpg" }
 ];
 
 const DEFAULT_REVIEWS = [
@@ -115,9 +115,9 @@ const DEFAULT_REVIEWS = [
 ];
 
 const DEFAULT_GENERAL_IMAGES = [
-  { id: 'hero-bg', key: 'Hero Background', url: 'https://res.cloudinary.com/yfn8ptmo/image/upload/v1784274462/Gemini_Generated_Image_bokkn8bokkn8bokk_bqdmq8.png' },
+  { id: 'hero-bg', key: 'Hero Background', url: 'https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_1600/v1784274462/Gemini_Generated_Image_bokkn8bokkn8bokk_bqdmq8.png' },
   { id: 'clinic-1', key: 'Clinic Interior 1', url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=60&w=600' },
-  { id: 'clinic-2', key: 'Clinic OT Room', url: 'https://res.cloudinary.com/yfn8ptmo/image/upload/v1784215462/clinic-2_jq1ta5.jpg' },
+  { id: 'clinic-2', key: 'Clinic OT Room', url: 'https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784215462/clinic-2_jq1ta5.jpg' },
   { id: 'clinic-3', key: 'Clinic Consultation', url: 'https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&q=60&w=600' },
   { id: 'clinic-4', key: 'Clinic Lounge', url: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=60&w=600' },
 ];
@@ -129,7 +129,7 @@ const DEFAULT_DOCTORS: Doctor[] = [
     title: "Chief Surgeon",
     qualification: "M.B.B.S, M.D., ABHRS Certified",
     experience: "15+",
-    image: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784211663/istockphoto-177373093-612x612_ayuplq.jpg",
+    image: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784211663/istockphoto-177373093-612x612_ayuplq.jpg",
     description: "Renowned as Central India's leading hair transplant surgeon, Dr. Koshle combines medical precision with an artistic approach to hairline design. With over 10,000 successful procedures, he ensures maximum graft survival and 100% natural-looking results.",
     bullets: [
       { icon: "Award", text: "Diplomate, American Board of Hair Restoration Surgery" },
@@ -143,7 +143,7 @@ const DEFAULT_DOCTORS: Doctor[] = [
     title: "Senior Consultant",
     qualification: "M.B.B.S, M.S. (Plastic Surgery)",
     experience: "12+",
-    image: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784211725/indian-female-doctor-22957497_mtfk5q.webp",
+    image: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784211725/indian-female-doctor-22957497_mtfk5q.webp",
     description: "Specializing in advanced FUE and female hair restoration, Dr. Desai brings a meticulous eye for detail. Her gentle approach and exceptional hairline designs have earned her widespread acclaim.",
     bullets: [
       { icon: "Award", text: "Gold Medalist in Plastic Surgery" },
@@ -185,7 +185,7 @@ const DEFAULT_DOCTORS: Doctor[] = [
     title: "Restoration Surgeon",
     qualification: "M.B.B.S, M.D.",
     experience: "14+",
-    image: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784211771/mature-indian-doctor-smiling-portrait-male-medical-uniform-standing-plain-background-shadow-61211828_wu16i6.webp",
+    image: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784211771/mature-indian-doctor-smiling-portrait-male-medical-uniform-standing-plain-background-shadow-61211828_wu16i6.webp",
     description: "A pioneer in beard and eyebrow transplants, Dr. Aditya uses ultra-refined techniques for facial hair restoration, delivering flawlessly natural results.",
     bullets: [
       { icon: "Award", text: "Facial Hair Transplant Pioneer" },
@@ -196,10 +196,10 @@ const DEFAULT_DOCTORS: Doctor[] = [
 ];
 
 const DEFAULT_SERVICES: Service[] = [
-  { id: '1', title: "Hair Transplant", description: "Advanced FUE hair transplant for natural looking results with maximum density.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784272944/htp_awucfz.jpg" },
-  { id: '2', title: "PRP Therapy", description: "Platelet Rich Plasma therapy to stimulate hair follicles and promote new growth.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784272469/images_4_xormtu.jpg" },
-  { id: '3', title: "Beard Transplant", description: "Restore or enhance your facial hair with precision beard transplantation.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784272223/beard_transplant_iytgez.jpg" },
-  { id: '4', title: "Eyebrow Transplant", description: "Perfectly shaped and dense eyebrows using ultra-refined extraction techniques.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/v1784272693/eyevbrow_transplant_likpu3.jpg" },
+  { id: '1', title: "Hair Transplant", description: "Advanced FUE hair transplant for natural looking results with maximum density.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784272944/htp_awucfz.jpg" },
+  { id: '2', title: "PRP Therapy", description: "Platelet Rich Plasma therapy to stimulate hair follicles and promote new growth.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784272469/images_4_xormtu.jpg" },
+  { id: '3', title: "Beard Transplant", description: "Restore or enhance your facial hair with precision beard transplantation.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784272223/beard_transplant_iytgez.jpg" },
+  { id: '4', title: "Eyebrow Transplant", description: "Perfectly shaped and dense eyebrows using ultra-refined extraction techniques.", image: "https://res.cloudinary.com/yfn8ptmo/image/upload/f_auto,q_auto,w_800/v1784272693/eyevbrow_transplant_likpu3.jpg" },
   { id: '5', title: "Hair Loss Treatment", description: "Comprehensive medical treatments to stop hair fall and improve scalp health.", image: "https://images.unsplash.com/photo-1537368910025-7028dd906d3f?auto=format&fit=crop&w=600" },
   { id: '6', title: "Mesotherapy", description: "Nutrient-rich microinjections to rejuvenate the scalp and stimulate new hair growth.", image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=600" },
   { id: '7', title: "DHI Hair Transplant", description: "Direct Hair Implantation for maximum graft survival and perfectly natural direction.", image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600" },

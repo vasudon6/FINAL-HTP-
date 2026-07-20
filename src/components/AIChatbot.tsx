@@ -72,14 +72,12 @@ ${publicData.clinicContext || 'No additional context provided by admin.'}
     <>
       {/* Floating Action Button */}
       <div className={`fixed right-4 bottom-[100px] sm:bottom-6 sm:right-6 z-[110] flex-col items-center gap-2 ${isOpen ? 'hidden' : 'flex'}`}>
-        <motion.div
-          animate={{ y: [0, -6, 0], scale: [1, 1.05, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs px-3 py-1.5 lg:text-sm font-bold lg:px-4 lg:py-2 rounded-full shadow-[0_4px_20px_rgba(16,185,129,0.5)] whitespace-nowrap border border-white/20 relative"
+        <div
+          className="animate-bounce bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs px-3 py-1.5 lg:text-sm font-bold lg:px-4 lg:py-2 rounded-full shadow-[0_4px_20px_rgba(16,185,129,0.5)] whitespace-nowrap border border-white/20 relative"
         >
           Ask anything ✨
           <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 lg:w-2.5 lg:h-2.5 bg-teal-600 rotate-45 border-r border-b border-white/20"></div>
-        </motion.div>
+        </div>
         
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -100,6 +98,7 @@ ${publicData.clinicContext || 'No additional context provided by admin.'}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
+            style={{ willChange: "transform, opacity" }}
             className="fixed right-2 left-2 bottom-[100px] sm:right-6 sm:left-auto sm:bottom-6 sm:w-[380px] h-[400px] sm:h-[450px] bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-200 z-[110] flex flex-col overflow-hidden"
           >
             {/* Header */}

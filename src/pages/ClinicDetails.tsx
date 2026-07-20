@@ -42,7 +42,7 @@ export default function ClinicDetails() {
         
         {/* Hero Section */}
         <section className="relative rounded-3xl overflow-hidden shadow-lg w-full bg-slate-200">
-          <img loading="lazy" decoding="async" src={heroImage} 
+          <img fetchPriority="high" decoding="async" src={heroImage} 
             alt="Vasu Hair Transplant Clinic Hero" 
             className="w-full h-auto min-h-[25vh] max-h-[60vh] object-cover"
           />

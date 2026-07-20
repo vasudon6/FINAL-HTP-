@@ -68,11 +68,8 @@ export default function Hero() {
                   Book Free Consultation
                   <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg]"
-                  initial={{ x: '-150%' }}
-                  animate={{ x: '150%' }}
-                  transition={{ repeat: Infinity, duration: 2, repeatDelay: 3 }}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg] animate-[shimmer_5s_infinite]"
                 />
               </motion.a>
               
@@ -81,8 +78,8 @@ export default function Hero() {
                 className="flex items-center gap-3 cursor-default"
               >
                 <div className="flex -space-x-2">
-                  <div className="w-10 h-10 rounded-full bg-slate-200 border-2 border-white overflow-hidden hover:z-10 transition-transform hover:scale-110 duration-200"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=60" alt="Patient" loading="lazy" decoding="async" /></div>
-                  <div className="w-10 h-10 rounded-full bg-slate-300 border-2 border-white overflow-hidden hover:z-10 transition-transform hover:scale-110 duration-200"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=60" alt="Patient" loading="lazy" decoding="async" /></div>
+                  <div className="w-10 h-10 rounded-full bg-slate-200 border-2 border-white overflow-hidden hover:z-10 transition-transform hover:scale-110 duration-200"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=60" alt="Patient" loading="lazy" decoding="async" /></div>
+                  <div className="w-10 h-10 rounded-full bg-slate-300 border-2 border-white overflow-hidden hover:z-10 transition-transform hover:scale-110 duration-200"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=60" alt="Patient"  /></div>
                   <div className="w-10 h-10 rounded-full bg-slate-400 border-2 border-white overflow-hidden flex items-center justify-center text-xs font-bold text-white bg-teal-600 hover:z-10 transition-transform hover:scale-110 duration-200">5k+</div>
                 </div>
                 <span className="text-xs font-bold text-slate-500 flex flex-col">
@@ -100,7 +97,7 @@ export default function Hero() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="relative min-h-[400px] h-full rounded-2xl overflow-hidden shadow-sm border border-slate-100 group"
         >
-          <img loading="lazy" decoding="async" src={heroImage} 
+          <img fetchPriority="high" decoding="async" src={heroImage} 
             alt="Hair Transplant Clinic" 
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
           />
