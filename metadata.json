@@ -1,0 +1,6 @@
+{
+  "name": "Raipur Hair Transplant Clinic",
+  "description": "A single-page, professional, minimal, and highly modern animated website for a Hair Transplant Clinic in Raipur.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
