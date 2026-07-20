@@ -91,7 +91,7 @@ async function startServer() {
       };
 
       const response = await currentAi.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-flash",
         contents: contents,
         config: {
           systemInstruction: finalContext,
@@ -115,6 +115,9 @@ async function startServer() {
       res.json({ reply: replyText, aiBooking });
     } catch (error: any) {
       console.error("Chat error:", error);
+      if (error?.status === 429 || error?.message?.includes('Quota exceeded') || error?.message?.includes('429')) {
+        return res.status(429).json({ error: "API limit reached. Please try again in a few minutes." });
+      }
       res.status(500).json({ error: "Sorry, there was an error processing your request." });
     }
   });

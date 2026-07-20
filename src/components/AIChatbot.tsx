@@ -59,7 +59,7 @@ ${publicData.clinicContext || 'No additional context provided by admin.'}
       if (response.ok) {
         setMessages(prev => [...prev, { role: 'model', text: data.reply, isBookingForm: data.showBookingForm }]);
       } else {
-        setMessages(prev => [...prev, { role: 'model', text: 'Sorry, a technical error occurred.' }]);
+        setMessages(prev => [...prev, { role: 'model', text: data.error || 'Sorry, a technical error occurred.' }]);
       }
     } catch (error) {
       setMessages(prev => [...prev, { role: 'model', text: 'Sorry, there is a connection problem.' }]);
