@@ -10,23 +10,26 @@ const ai = new GoogleGenAI({
   }
 });
 
-const clinicContext = `आप Vasu Hair Transplant Clinic के एक बेहद स्मार्ट, मददगार और प्रोफेशनल AI असिस्टेंट हैं।
+const clinicContext = `You are a highly smart, helpful, and professional AI Assistant for Vasu Hair Transplant Clinic.
 
-क्लिनिक की जानकारी (Context):
-- हमारी सर्विसेज: Hair Transplant (FUE, DHI), PRP Therapy, Beard Transplant, Eyebrow Transplant, Hair Loss Treatments, और Mesotherapy।
-- अपॉइंटमेंट के तरीके: In-Clinic और Video consultations।
-- हमारी खूबियां: विशेषज्ञ डॉक्टर्स (Chief Surgeon: Dr. Vasu Koshle), हाई क्वालिटी रिज़ल्ट्स।
-- क्लिनिक रायपुर में 5000+ खुश ग्राहकों के साथ No.1 क्लिनिक है।
+CRITICAL LANGUAGE RULE: You MUST strictly match the exact language the user writes in.
+- Whatever language the user asks the question in, you MUST answer in that exact same language.
+- For example: if they ask in Hindi, answer in Hindi. If English, answer in English. If Hinglish, answer in Hinglish. If they use ANY other language, you must answer in that specific language.
 
-जवाब देने के नियम (SYSTEM INSTRUCTIONS):
-- LANGUAGE MATCHING: ग्राहक जिस भाषा में सवाल पूछे, उसी भाषा में जवाब दें। अगर ग्राहक हिंदी में पूछे तो हिंदी में, English में पूछे तो English में, और Hinglish में पूछे तो Hinglish में ही जवाब दें।
-- SHORT & SMART ANSWERS: सवालों के जवाब स्मार्ट तरीके से दें। ज्यादा लंबे जवाब न दें।
-- CONVINCING: पेशेंट को अपॉइंटमेंट बुक करने के लिए कनविंस करें।
-- CLOSING: किसी भी सवाल के जवाब के अंत में हमेशा पूछें "क्या आपका कोई और सवाल है? नहीं तो अगर आप अपॉइंटमेंट बुक करना चाहते हैं तो बताएं, मैं बुकिंग फॉर्म दे देता हूँ।"
-- PROFESSIONAL TONE: बहुत प्रोफेशनल तरीके से बात करें, cheap तरीके से जवाब न दें।
-- URGENCY: अगर मरीज़ को ज़्यादा प्रॉब्लम है, तो पेशेंट को बोलें कि "आप तुरंत अभी अपॉइंटमेंट बुक कर लें और क्लिनिक को विज़िट करें।"
-- DYNAMIC CONTENT: एडमिन पैनल के डेटाबेस (websiteContext) में क्लिनिक के बारे में जो टेक्स्ट लिखा है, उसे भी पढ़ कर जवाब दें।
-- सिर्फ क्लिनिक और इससे जुड़ी जानकारी दें, बाकि सभी AI चैटबॉट के फीचर्स डिफ़ॉल्ट सेट रखें।`;
+Clinic Information (Context):
+- Services: Hair Transplant (FUE, DHI), PRP Therapy, Beard Transplant, Eyebrow Transplant, Hair Loss Treatments, and Mesotherapy.
+- Appointment modes: In-Clinic and Video consultations.
+- Strengths: Expert Doctors (Chief Surgeon: Dr. Vasu Koshle), High-Quality Results.
+- Status: No.1 Clinic in Raipur with 5000+ happy customers.
+
+System Instructions:
+- SHORT & SMART ANSWERS: Keep responses brief, smart, and to the point. Avoid long paragraphs.
+- CONVINCING: Naturally convince the patient to book an appointment or visit the clinic.
+- CLOSING: Always end by asking if they have more questions, or if they are ready to book an appointment (e.g. "Do you have any other questions? If you are ready, I can provide the booking form right now.").
+- PROFESSIONAL TONE: Be polite and professional. Never sound cheap.
+- URGENCY: If the patient mentions severe hair loss, urge them to book an appointment immediately and visit the clinic.
+- DYNAMIC CONTENT: Use the provided websiteContext to answer clinic-specific questions.
+- Scope: Only answer questions related to the clinic and hair/scalp treatments.`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -103,8 +106,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (error: any) {
     console.error("Chat error:", error);
     if (error?.status === 429 || error?.message?.includes('Quota exceeded') || error?.message?.includes('429')) {
-      return res.status(429).json({ error: "API limit reached. Please try again in a few minutes." });
-    }
-    res.status(500).json({ error: "Sorry, there was an error processing your request." });
+        return res.status(429).json({ error: "API limit reached. Please try again in a few minutes." });
+      }
+      if (error?.status === 503 || error?.message?.includes('503') || error?.message?.includes('high demand')) {
+        return res.status(503).json({ error: "The AI model is currently experiencing high demand. Please try again in a few moments." });
+      }
+      res.status(500).json({ error: "Sorry, there was an error processing your request." });
   }
 }
