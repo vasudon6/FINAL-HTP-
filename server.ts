@@ -113,13 +113,15 @@ System Instructions:
 
       res.json({ reply: replyText, aiBooking });
     } catch (error: any) {
-      console.error("Chat error:", error);
       if (error?.status === 429 || error?.message?.includes('Quota exceeded') || error?.message?.includes('429')) {
+        console.warn("Gemini Quota Exceeded (429)");
         return res.status(429).json({ error: "API limit reached. Please try again in a few minutes." });
       }
       if (error?.status === 503 || error?.message?.includes('503') || error?.message?.includes('high demand')) {
+        console.warn("Gemini High Demand (503)");
         return res.status(503).json({ error: "The AI model is currently experiencing high demand. Please try again in a few moments." });
       }
+      console.error("Chat error:", error);
       res.status(500).json({ error: "Sorry, there was an error processing your request." });
     }
   });
